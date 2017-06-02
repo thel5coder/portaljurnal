@@ -31,17 +31,17 @@
         <ul class="sidebar-menu">
             <li class="header">HEADER</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>Dashboard</span></a></li>
-            <li><a href="#"><i class='fa fa-link'></i> <span>Pendaftaran</span></a></li>
-            <li><a href="#"><i class='fa fa-link'></i> <span>Jurnal Usulan</span></a></li>
-            <li><a href="#"><i class='fa fa-link'></i> <span>Blind Review</span></a></li>
-            <li><a href="#"><i class='fa fa-link'></i> <span>Rekapitulasi</span></a></li>
-            <li><a href="#"><i class='fa fa-link'></i> <span>Profil</span></a></li>
+            <li class="active"><a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>Home</span></a></li>
+            <li><a href="#"><i class='fa fa-folder-open'></i> <span>Open Jurnal</span></a></li>
+            <li><a href="#"><i class='fa fa-file'></i> <span>Jurnal Usulan</span></a></li>
+            <li><a href="#"><i class='fa fa-folder'></i> <span>Rekapitulasi</span></a></li>
+            <li><a href="#"><i class='fa fa-link'></i> <span>Pendaftaran Jurnal</span></a></li>
+            <li><a href="#"><i class='fa fa-link'></i> <span>My Jurnal</span></a></li>
             <li class="treeview">
-                <a href="#"><i class='fa fa-link'></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <a href="#"><i class='fa fa-link'></i> <span>Jurnal Revisi</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Link in level 2</a></li>
-                    <li><a href="#">Link in level 2</a></li>
+                    <li><a href="#">Revisi TR</a></li>
+                    <li><a href="#">Revisi MB</a></li>
                 </ul>
             </li>
         </ul><!-- /.sidebar-menu -->

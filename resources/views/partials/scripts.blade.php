@@ -7,7 +7,7 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('public/js/app.min.js') }}" type="text/javascript"></script>
 
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-      Both of these plugins are recommended to enhance the
-      user experience. Slimscroll is required when using the
-      fixed layout. -->
+<script src="{{ asset('public/js/angular.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/js/angular-route.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/js/angular-sanitize.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/js/plugins/jquery-validation/js/jquery.validate.js') }}" type="text/javascript"></script>

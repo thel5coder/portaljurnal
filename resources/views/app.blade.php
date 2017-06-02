@@ -53,6 +53,7 @@ desired effect
 </div><!-- ./wrapper -->
 
 @include('partials.scripts')
+@yield('customscript')
 
 </body>
 </html>
