@@ -1,0 +1,10 @@
+
+/node_modules
+Homestead.yaml
+Homestead.json
+.idea/blade.xml
+.idea/copyright/profiles_settings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/portaljurnal.iml
+.idea/workspace.xml
