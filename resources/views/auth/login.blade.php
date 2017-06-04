@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<body class="login-page">
+<body class="login-page" ng-app="jurnalApp" ng-controller="authController">
     <div class="login-box">
         <div class="login-logo">
             <a href="{{ url('/home') }}"><b>Portal Jurnal</b></a>
@@ -25,7 +25,7 @@
     <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
     <form action="{{ url('/auth/login') }}" method="post">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}" ng-model="_token">
         <div class="form-group has-feedback">
             <input type="email" class="form-control" placeholder="Email" name="email"/>
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -47,8 +47,8 @@
             </div><!-- /.col -->
         </div>
     </form>
-    <a href="{{ url('/password/email') }}">I forgot my password</a><br>
-    <a href="{{ url('/auth/register') }}" class="text-center">Register a new membership</a>
+    <a ng-click="">I forgot my password</a><br>
+    <a href="#" ng-click="navigationRoute('auth/register')" class="text-center">Register a new membership</a>
 </div><!-- /.login-box-body -->
 </div><!-- /.login-box -->
 

@@ -27,3 +27,7 @@ Route::get('jurnal', function (){
 Route::get('user', function (){
     return view('user.index');
 });
+Route::get('/auth/register',function (){
+   return view('auth.register');
+});
+Route::post('/auth/login',['as'=>'loginPost','uses'=>'AuthController@postLogin']);
