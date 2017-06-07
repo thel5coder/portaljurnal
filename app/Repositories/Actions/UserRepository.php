@@ -1,15 +1,17 @@
 <?php
+namespace App\Repositories\Actions;
+
 use DB;
 Use App\Models\PjUser;
 
-class UserRepository implements \App\Repository\Contract\IUserRepository
+class UserRepository implements \App\Repositories\Contracts\IUserRepository
 {
 
     public function create($input)
     {
         $user = new PjUser();
         $user->unik_id = $input['unikId'];
-        $user->name = $input['username'];
+        $user->name = $input['name'];
         $user->email = $input['email'];
         $user->password = $input['password'];
         $user->jurusan = $input['jurusan'];

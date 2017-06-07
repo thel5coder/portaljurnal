@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\Contract;
+namespace App\Repositories\Contracts;
 
 use App\Repository\Contract\Pagination\PaginationParam;
 

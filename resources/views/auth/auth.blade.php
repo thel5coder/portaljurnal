@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="jurnalApp">
 
 @include('partials.htmlheader')
 
-@yield('content')
+<body class="login-page">
+<ng-view></ng-view>
+@include('auth.scripts')
+</body>
 
 </html>

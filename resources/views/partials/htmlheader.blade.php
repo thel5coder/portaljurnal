@@ -1,7 +1,6 @@
 <head>
     <meta charset="UTF-8">
     <title> Portal Jurnal - @yield('htmlheader_title', 'Your title here') </title>
-    <base href="{{url('/portaljurnal')}}">
 
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.4 -->

@@ -1,0 +1,142 @@
+<div class="register-box">
+    <div class="register-logo">
+        <a href="home"><b>Portal Jurnal</b></a>
+    </div>
+
+
+    <div class="register-box-body">
+        <p class="login-box-msg">Daftar</p>
+        <form name="formRegister" id="formRegister" ng-submit="registerUser(formRegister)" ng-validate="validationOptions">
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="NIM/NIDN" name="unikId"
+                       ng-model="registerData.unikId"/>
+                <span class="glyphicon glyphicon-star form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="Full name" name="name"
+                       ng-model="registerData.name"/>
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="email" class="form-control" placeholder="Email" name="email"
+                       ng-model="registerData.email" />
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="Jurusan" name="jurusan"
+                       ng-model="registerData.jurusan" />
+                <span class="glyphicon glyphicon-briefcase form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="Instansi" name="instansi"
+                       ng-model="registerData.instansi" />
+                <span class="glyphicon glyphicon-briefcase form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <textarea type="text" class="form-control" placeholder="Alamat" name="alamat" ng-model="registerData.alamat" ></textarea>
+                <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" placeholder="Password" id="password" name="password" ng-model="registerData.password" />
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" placeholder="Retype password" name="confirmPassword"/>
+                <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="checkbox icheck">
+                        <label>
+                            <input type="checkbox" value="1" ng-model="setuju"> I agree to the <a href="#">terms</a>
+                        </label>
+                    </div>
+                </div><!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                </div><!-- /.col -->
+            </div>
+        </form>
+
+        <a href="#/" class="text-center">I already have a membership</a>
+    </div><!-- /.form-box -->
+</div><!-- /.register-box -->
+<script>
+    /*$(document).ready(function () {
+        $('#formRegister').validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+
+                unikId: {
+                    required: true
+                },
+                name: {
+                    required: true
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                alamat: {
+                    required: true,
+                },
+                password: {
+                    required: true,
+                    min: 8
+                },
+                confirmPassword:{
+                    equalTo: '#password'
+                }
+            },
+            messages: {
+                unikId: {
+                    required: "NIM/NIDN Harus di isi"
+                },
+                name: {
+                    required: "Nama harus di isi",
+                },
+                email:{
+                    required: "Email harus di isi",
+                    email: "Masukkan alamat email yang valid"
+                },
+                alamat:{
+                    required: "Alamat harus di isi"
+                },
+                password:{
+                    required:"Password harus di isi",
+                    min: "Password minimal 8 karakter"
+                },
+                confirmPassword: {
+                    equalTo: 'Konfirmasi password harus sama dengan password'
+                }
+            },
+            invalidHandler: function(event, validator) { //display error alert on form submit
+
+            },
+
+            highlight: function(element) { // hightlight error inputs
+                $(element)
+                        .closest('.form-group').addClass('has-error'); // set error class to the control group
+            },
+
+            success: function(label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            errorPlacement: function(error, element) {
+                if (element.attr("name") == "tnc") { // insert checkbox errors after the container
+                    error.insertAfter($('#register_tnc_error'));
+                } else if (element.closest('.input-icon').size() === 1) {
+                    error.insertAfter(element.closest('.input-icon'));
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+
+        });
+    })*/
+</script>

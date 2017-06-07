@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
-use App\Repository\Contract\IUserRepository;
+
+use App\Repositories\Contracts\IUserRepository;
 use App\Services\Response\ServiceResponseDto;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,38 +21,40 @@ class UserService extends BaseService
         return $response;
     }
 
-    protected function isPasswordValid($password,$email)
+    protected function isPasswordValid($password, $email)
     {
         $response = new ServiceResponseDto();
-        $response->setResult($this->userRepository->CekPassword($password,$email));
+        $response->setResult($this->userRepository->CekPassword($password, $email));
         return $response;
     }
 
-    public function Autentikasi($email,$password)
+    public function Autentikasi($email, $password, $remember)
     {
         $response = new ServiceResponseDto();
         $isEmailExist = $this->isEmailExist($email);
-        if ($isEmailExist->getResult())
-        {
-            $isPasswordValid = $this->isPasswordValid($password,$email);
-            if($isPasswordValid->getResult())
-            {
-                Auth::attempt(['email' => $email ,'password' => $password]);
-            }else{
+        if ($isEmailExist->getResult()) {
+            $isPasswordValid = $this->isPasswordValid($password, $email);
+            if ($isPasswordValid->getResult()) {
+                if ($remember == 1) {
+                    Auth::attempt(['email' => $email, 'password' => $password], true);
+                }
+
+                Auth::attempt(['email' => $email, 'password' => $password]);
+            } else {
                 $message = ['Password Salah'];
                 $response->addErrorMessage($message);
             }
-        }else{
+        } else {
             $message = ['Email Belum Terdaftar'];
             $response->addErrorMessage($message);
         }
         return $response;
     }
 
-    public function UpdatePassword($password,$id)
+    public function UpdatePassword($password, $id)
     {
         $response = new ServiceResponseDto();
-        $this->userRepository->UpdatePassword($password,$id);
+        $this->userRepository->UpdatePassword($password, $id);
         return $response;
     }
 
@@ -59,19 +62,18 @@ class UserService extends BaseService
     {
         $response = new ServiceResponseDto();
         $isEmailExist = $this->isEmailExist($input['email']);
-        if ($isEmailExist->getResult())
-        {
+        if ($isEmailExist->getResult()) {
             $message = ['Email Sudah Digunakan'];
             $response->addErrorMessage($message);
-        }else{
-            $param=[
-                'unikId'    =>(isset($input['unikId']) ? $input['unikId']:''),
-                'name'      => (isset($input['username']) ? $input['username'] : ''),
-                'email'     => (isset($input['email'])) ? $input['email'] : '',
-                'password'  => (isset($input['password'])) ? $input['password'] : '',
-                'jurusan'   => (isset($input['jurusan'])) ? $input['jurusan'] : '',
-                'instansi'  => (isset($input['insatansi'])) ? $input['instansi'] : '',
-                'alamat'    => (isset($input['alamat'])) ? $input['alamat'] : '',
+        } else {
+            $param = [
+                'unikId' => (isset($input['unikId']) ? $input['unikId'] : ''),
+                'name' => (isset($input['name']) ? $input['name'] : ''),
+                'email' => (isset($input['email'])) ? $input['email'] : '',
+                'password' => (isset($input['password'])) ? bcrypt($input['password'] ): '',
+                'jurusan' => (isset($input['jurusan'])) ? $input['jurusan'] : '',
+                'instansi' => (isset($input['instansi'])) ? $input['instansi'] : '',
+                'alamat' => (isset($input['alamat'])) ? $input['alamat'] : '',
                 'userLevel' => $input['userLevel']
             ];
             $this->userRepository->create($param);
@@ -82,13 +84,13 @@ class UserService extends BaseService
     public function UpdateUser($input)
     {
         $response = new ServiceResponseDto();
-        $param=[
-            'unikId'    =>(isset($input['unikId']) ? $input['unikId']:''),
-            'name'      => (isset($input['username']) ? $input['username'] : ''),
-            'email'     => (isset($input['email'])) ? $input['email'] : '',
-            'jurusan'   => (isset($input['jurusan'])) ? $input['jurusan'] : '',
-            'instansi'  => (isset($input['insatansi'])) ? $input['instansi'] : '',
-            'alamat'    => (isset($input['alamat'])) ? $input['alamat'] : '',
+        $param = [
+            'unikId' => (isset($input['unikId']) ? $input['unikId'] : ''),
+            'name' => (isset($input['username']) ? $input['username'] : ''),
+            'email' => (isset($input['email'])) ? $input['email'] : '',
+            'jurusan' => (isset($input['jurusan'])) ? $input['jurusan'] : '',
+            'instansi' => (isset($input['insatansi'])) ? $input['instansi'] : '',
+            'alamat' => (isset($input['alamat'])) ? $input['alamat'] : '',
             'userLevel' => $input['userLevel']
         ];
         $this->userRepository->update($param);
@@ -102,11 +104,11 @@ class UserService extends BaseService
 
     public function read($id)
     {
-        return $this->readObject($this->userRepository,$id);
+        return $this->readObject($this->userRepository, $id);
     }
 
     public function delete($id)
     {
-        return $this->deleteObject($this->userRepository,$id);
+        return $this->deleteObject($this->userRepository, $id);
     }
 }

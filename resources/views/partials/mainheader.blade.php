@@ -115,14 +115,13 @@
                         <!-- The user image in the navbar-->
                         <img src="{{asset('public/img/user2-160x160.jpg')}}" class="user-image" alt="User Image"/>
                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                        <span class="hidden-xs">{{ Auth::user()->name }}</span>
+                        <span class="hidden-xs">nama user</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
                         <li class="user-header">
                             <img src="{{asset('public/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image" />
-                            <p>
-                                {{ Auth::user()->name }}
+                            <p>nama user
                                 <small>Member since Nov. 2012</small>
                             </p>
                         </li>

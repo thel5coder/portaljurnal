@@ -6,7 +6,7 @@
  * Time: 15:15
  */
 
-namespace App\Repository\Contract;
+namespace App\Repositories\Contracts;
 
 interface IUserRepository extends IBaseRepository
 {

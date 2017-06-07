@@ -1,12 +1,23 @@
-var app = angular.module("jurnalApp", ["loginController","loginServices"], function ($interpolateProvider, $locationProvider) {
+var app = angular.module("jurnalApp", ["ngRoute","ngCookies","ngValidate", "loginController", "loginServices"], function ($interpolateProvider, $locationProvider) {
     $interpolateProvider.startSymbol('<%');
     $interpolateProvider.endSymbol('%>');
-    $locationProvider.html5Mode({
-        enabled: true,
-        requireBase: true
-    });
 });
 
+app.config(function ($routeProvider,$locationProvider) {
+    $routeProvider
+        .when('/', {
+            templateUrl: 'resources/views/auth/login.html',
+            controller: 'authController'
+        });
+
+    $routeProvider.when('/auth/register', {
+        templateUrl: 'resources/views/auth/register.html',
+        controller: 'authController'
+    });
+
+    $routeProvider.otherwise('/');
+
+});
 
 function notificationMessage(message, type) {
     toastr.options.positionClass = "toast-top-full-width";

@@ -3,7 +3,7 @@ angular.module('loginServices', [])
     return {
         register: function (registerData) {
             return $http({
-                url: baseUrl + "/auth/register",
+                url: baseUrl + "/api/registration",
                 method: "POST",
                 async: false,
                 contentType: false,
@@ -14,7 +14,7 @@ angular.module('loginServices', [])
 
         login: function (loginData) {
             return $http({
-                url: baseUrl + "/auth/login",
+                url: baseUrl + "/api/user-login",
                 method: "POST",
                 async: false,
                 contentType: false,
