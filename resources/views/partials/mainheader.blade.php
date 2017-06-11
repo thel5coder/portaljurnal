@@ -1,5 +1,5 @@
 <!-- Main Header -->
-<header class="main-header">
+<header class="main-header" ng-controller="authController">
 
     <!-- Logo -->
     <a href="{{ url('/home') }}" class="logo">
@@ -115,13 +115,13 @@
                         <!-- The user image in the navbar-->
                         <img src="{{asset('public/img/user2-160x160.jpg')}}" class="user-image" alt="User Image"/>
                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                        <span class="hidden-xs">nama user</span>
+                        <span class="hidden-xs">{{auth()->user()->name}}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
                         <li class="user-header">
                             <img src="{{asset('public/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image" />
-                            <p>nama user
+                            <p>nama user {{auth()->user()->name}}
                                 <small>Member since Nov. 2012</small>
                             </p>
                         </li>
@@ -143,7 +143,7 @@
                                 <a href="#" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
-                                <a href="{{ url('/auth/logout') }}" class="btn btn-default btn-flat">Sign out</a>
+                                <button type="button" ng-click="logOutUser()" class="btn btn-default btn-flat">Sign out</>
                             </div>
                         </li>
                     </ul>

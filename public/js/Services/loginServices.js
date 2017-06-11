@@ -1,6 +1,7 @@
 angular.module('loginServices', [])
-    .factory('authFactory', function ($http) {
+    .factory('authFactory', function ($http,$cookies) {
     return {
+
         register: function (registerData) {
             return $http({
                 url: baseUrl + "/api/registration",
@@ -19,7 +20,17 @@ angular.module('loginServices', [])
                 async: false,
                 contentType: false,
                 processData: false,
-                data: registerData
+                data: loginData
+            });
+        },
+
+        logout: function () {
+            return $http({
+                url: baseUrl + "/api/user-logout",
+                method: "GET",
+                async: false,
+                contenType: false,
+                processData: false
             });
         }
     }

@@ -3,8 +3,9 @@ namespace App\Repositories\Actions;
 
 use DB;
 Use App\Models\PjUser;
+use App\Repositories\Contracts\IUserRepository;
 
-class UserRepository implements \App\Repositories\Contracts\IUserRepository
+class UserRepository implements IUserRepository
 {
 
     public function create($input)
@@ -47,7 +48,7 @@ class UserRepository implements \App\Repositories\Contracts\IUserRepository
         return PjUser::all();
     }
 
-    public function paginationData(\App\Repository\Contract\Pagination\PaginationParam $param)
+    public function paginationData(\App\Repositories\Contracts\Pagination\PaginationParam $param)
     {
         // TODO: Implement paginationData() method.
     }
@@ -61,7 +62,7 @@ class UserRepository implements \App\Repositories\Contracts\IUserRepository
     public function CekPassword($password, $email)
     {
         $result = PjUser::where('email','=',$email)->value('password');
-        return \Illuminate\Support\Facades\Hash::check($result,$password);
+        return \Illuminate\Support\Facades\Hash::check($password,$result);
     }
 
     public function UpdatePassword($password, $id)

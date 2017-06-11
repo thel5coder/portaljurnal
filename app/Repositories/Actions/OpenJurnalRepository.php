@@ -1,7 +1,12 @@
 <?php
+namespace App\Repositories\Actions;
 
 use App\Models\PjOpenJurnalModel;
-class OpenJurnalRepository implements \App\Repository\Contract\IOpenJurnalRepository
+use App\Repositories\Contracts\Pagination\PaginationResult;
+use App\Repositories\Contracts\IOpenJurnalRepository;
+use DB;
+
+class OpenJurnalRepository implements IOpenJurnalRepository
 {
 
     public function create($input)
@@ -21,12 +26,12 @@ class OpenJurnalRepository implements \App\Repository\Contract\IOpenJurnalReposi
         $update->tgl_tutup = $input['tglTutup'];
         $update->volume = $input['volume'];
         $update->nomor = $input['nomor'];
-        return $create->save();
+        return $update->save();
     }
 
     public function delete($id)
     {
-        return PjOpenJurnalModel::find($id);
+        return PjOpenJurnalModel::find($id)->delete();
     }
 
     public function read($id)
@@ -39,8 +44,59 @@ class OpenJurnalRepository implements \App\Repository\Contract\IOpenJurnalReposi
         return PjOpenJurnalModel::all();
     }
 
-    public function paginationData(\App\Repository\Contract\Pagination\PaginationParam $param)
+    public function paginationData(\App\Repositories\Contracts\Pagination\PaginationParam $param)
     {
-        // TODO: Implement paginationData() method.
+        $result = new PaginationResult();
+
+        $order = $param->getSortOrder();
+        $orderBy = $param->getSortBy();
+
+        $sortBy = (isset($orderBy) ? 'id' : $orderBy);
+        $sortOrder = ($order == 'asc' ? 'desc' : $order);
+
+        //setup skip data for paging
+        if ($param->getPageSize() == -1) {
+            $skipCount = 0;
+        } else {
+            $skipCount = ($param->getPageIndex() * $param->getPageSize());
+        }
+        //get total count data
+        $result->setTotalCount(PjOpenJurnalModel::count());
+
+        //get data
+        if ($param->getKeyword() == '') {
+
+            if ($skipCount == 0) {
+                $data = PjOpenJurnalModel::take($param->getPageSize())
+                    ->orderBy($sortBy, $sortOrder)
+                    ->get();
+            } else {
+                $data = PjOpenJurnalModel::skip($skipCount)->take($param->getPageSize())
+                    ->orderBy($sortBy, $sortOrder)
+                    ->get();
+            }
+        } else {
+            if ($skipCount == 0) {
+                $data = PjOpenJurnalModel::where('tgl_buka', 'like', '%' . $param->getKeyword() . '%')
+                    ->where('tgl_tutup', 'like', '%' . $param->getKeyword() . '%')
+                    ->where('volume', 'like', '%' . $param->getKeyword() . '%')
+                    ->take($param->getPageSize())
+                    ->orderBy($sortBy, $sortOrder)
+                    ->get();
+            } else {
+                $data =  PjOpenJurnalModel::where('tgl_buka', 'like', '%' . $param->getKeyword() . '%')
+                    ->where('tgl_tutup', 'like', '%' . $param->getKeyword() . '%')
+                    ->where('volume', 'like', '%' . $param->getKeyword() . '%')
+                    ->orderBy($sortBy, $sortOrder)
+                    ->skip($skipCount)->take($param->getPageSize())
+                    ->get();
+            }
+        }
+
+        $result->setCurrentPageIndex($param->getPageIndex());
+        $result->setCurrentPageSize($param->getPageSize());
+        $result->setResult($data);
+
+        return $result;
     }
 }

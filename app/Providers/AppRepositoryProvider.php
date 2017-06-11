@@ -14,6 +14,7 @@ class AppRepositoryProvider extends ServiceProvider
     public function boot()
     {
         $this->app->bind('App\\Repositories\\Contracts\\IUserRepository', 'App\\Repositories\\Actions\UserRepository');
+        $this->app->bind('App\\Repositories\\Contracts\\IOpenJurnalRepository', 'App\\Repositories\\Actions\OpenJurnalRepository');
     }
 
     /**

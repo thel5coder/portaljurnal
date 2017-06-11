@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
-use App\Repository\Contract\Pagination\PaginationParam;
+use App\Repositories\Contracts\Pagination\PaginationParam;
 
 interface IBaseRepository {
 

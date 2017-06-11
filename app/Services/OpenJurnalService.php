@@ -9,7 +9,7 @@
 namespace App\Services;
 
 
-use App\Repository\Contract\IOpenJurnalRepository;
+use App\Repositories\Contracts\IOpenJurnalRepository;
 use App\Services\Response\ServiceResponseDto;
 
 class OpenJurnalService extends BaseService
@@ -24,10 +24,21 @@ class OpenJurnalService extends BaseService
     public function create($input)
     {
         $response = new ServiceResponseDto();
-        if(!$this->openJurnalRepository->create($input)){
+        $tglBuka = date('Y-m-d',strtotime($input['tglBuka']));
+        $tglTutup = date('Y-m-d',strtotime($input['tglTutup']));
+
+        $param = [
+            'tglBuka'=>$tglBuka,
+            'tglTutup'=>$tglTutup,
+            'volume'=>$input['volume'],
+            'nomor'=>$input['nomor']
+        ];
+
+        if(!$this->openJurnalRepository->create($param)){
             $message = ['Gagal Menambah Data'];
             $response->addErrorMessage($message);
         }
+
         return $response;
     }
 
@@ -41,9 +52,34 @@ class OpenJurnalService extends BaseService
         return $this->readObject($this->openJurnalRepository,$id);
     }
 
+    public function update($input){
+        $response = new ServiceResponseDto();
+        $tglBuka = date('Y-m-d',strtotime($input['tglBuka']));
+        $tglTutup = date('Y-m-d',strtotime($input['tglTutup']));
+
+        $param = [
+            'id'=>$input['id'],
+            'tglBuka'=>$tglBuka,
+            'tglTutup'=>$tglTutup,
+            'volume'=>$input['volume'],
+            'nomor'=>$input['nomor']
+        ];
+
+        if(!$this->openJurnalRepository->update($param)){
+            $message = ['Gagal Mengubah Data'];
+            $response->addErrorMessage($message);
+        }
+
+        return $response;
+    }
+
     public function delete($id)
     {
         return $this->deleteObject($this->openJurnalRepository,$id);
+    }
+
+    public function pagination($param){
+        return $this->getPaginationObject($this->openJurnalRepository,$param);
     }
 
 }

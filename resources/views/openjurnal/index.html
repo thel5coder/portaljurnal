@@ -1,0 +1,124 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-11">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Pendaftaran</h4>
+                </div>
+
+                <div class="panel-body">
+                    <button type="button" class="btn btn-app" ng-click="toggleModal('new','')">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        Buka Pendaftaran
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped" id="tblOpenJurnal">
+                        <thead>
+                        <tr>
+                            <th data-column-id="tgl_buka">Tanggal Buka</th>
+                            <th data-column-id="tgl_tutup">Tanggal Tutup</th>
+                            <th data-column-id="volume">Volume</th>
+                            <th data-column-id="nomor">Nomor</th>
+                            <th data-column-id="commands" data-formatter="aksi"
+                                data-sortable="false"> Aksi
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="openJurnalModal" tabindex="-1" role="dialog" >
+    <form class="form-horizontal" name="frmOpenJurnal" id="frmOpenJurnal" ng-submit="openJurnalCreate(frmOpenJurnal)" ng-validate="openJurnalValidationOption">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" ng-bind="modalTitle"></h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" ng-model="openJurnalModel.id" />
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="tglBuka" class="col-md-3 control-label">Tanggal Buka</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="tglBuka" name="tglBuka" ng-model="openJurnalData.tglBuka">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tglTutup" class="col-md-3 control-label">Tanggal Tutup</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="tglTutup" name="tglTutup" ng-model="openJurnalData.tglTutup">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="volume" class="col-md-3 control-label">Volume</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="volume" name="volume" ng-model="openJurnalData.volume">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nomor" class="col-md-3 control-label">Nomor</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="nomor" name="nomor" value="{{nomor}}" ng-model="openJurnalData.nomor">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </form>
+</div><!-- /.example-modal -->
+
+<script>
+    $(function () {
+        paginationTable();
+
+        $('#tglTutup').datepicker({
+            format:"dd-mm-yyyy"
+        });
+
+        $('#tglBuka').datepicker({
+            format:"dd-mm-yyyy"
+        });
+
+        $('#volume').datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years"
+        });
+    });
+    function paginationTable() {
+        var grid = $('#tblOpenJurnal').bootgrid({
+            ajax: true,
+            url: baseUrl+"/api/open-jurnal",
+            formatters: {
+                "aksi": function (column, row) {
+                    return "<div class=\"mt-action-buttons \">" +
+                            "<button type=\"button\"  name=\"btnEdit\" ng-controller=\"openJurnalController\" class=\"btn btn-success btn-app command-edit\" data-row-id=\"" + row.id + "\"><i class=\"glyphicon glyphicon-edit\"></i>Edit</button>" +
+                            "<button class=\"btn btn-app btn-danger command-delete\" ng-controller=\"openJurnalController\" data-row-id=\"" + row.id + "\"><i class=\"glyphicon glyphicon-remove\"></i>Hapus</button>" +
+                            "</div>";
+                }
+            }
+        }).on("loaded.rs.jquery.bootgrid", function () {
+            grid.find('.command-delete').click(function () {
+                angular.element('.command-delete').scope().openJurnalDelete($(this).data('row-id'));
+            }).end().find('.command-edit').click(function () {
+                angular.element('.command-edit').scope().toggleModal('edit',$(this).data('row-id'));
+            });
+        });
+
+    }
+</script>

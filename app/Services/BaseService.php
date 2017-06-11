@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use App\Repository\Contract\IBaseRepository;
+use App\Repositories\Contracts\IBaseRepository;
 use App\Services\Response\ServiceResponseDto as ResponseDto;
 use App\Services\Response\ServicePaginationResponseDto as PaginationDto;
-use App\Repository\Contract\Pagination\PaginationParam;
+use App\Repositories\Contracts\Pagination\PaginationParam;
 
 abstract class BaseService {
 

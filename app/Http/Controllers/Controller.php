@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Services\Response\ServiceResponseDto;
+use Illuminate\Support\Facades\Input;
 
 abstract class Controller extends BaseController
 {
@@ -16,14 +17,14 @@ abstract class Controller extends BaseController
             if ($response->isSuccess()) {
                 return response()->json(['isSuccess'=>true]);
             } else {
-                return response()->json(['isSuccess'=>false,'message'=>$response->getErrorMessages(),'count'=>count($response->getErrorMessages())]);
+                return response()->json(['isSuccess'=>false,'message'=>$response->getErrorMessages()]);
             }
         } catch (\Exception $ex) {
             $message = ['Invalid Proccess'];
 
             $response->addErrorMessage($message);
 
-            return response()->json(['isSuccess' => false, 'message' => $ex->getMessage()]);
+            return response()->json(['message' => $ex->getMessage()],500);
         }
     }
 

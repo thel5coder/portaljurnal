@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Repository\Contract\Pagination;
+namespace App\Repositories\Contracts\Pagination;
 
 class PaginationParam {
     

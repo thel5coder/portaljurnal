@@ -6,7 +6,7 @@
  * Time: 0:58
  */
 
-namespace App\Repository\Contract;
+namespace App\Repositories\Contracts;
 interface IOpenJurnalRepository extends IBaseRepository
 {
 

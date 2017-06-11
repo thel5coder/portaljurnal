@@ -68,9 +68,9 @@ class UserService extends BaseService
         } else {
             $param = [
                 'unikId' => (isset($input['unikId']) ? $input['unikId'] : ''),
-                'name' => (isset($input['name']) ? $input['name'] : ''),
-                'email' => (isset($input['email'])) ? $input['email'] : '',
-                'password' => (isset($input['password'])) ? bcrypt($input['password'] ): '',
+                'name' => $input['name'],
+                'email' => $input['email'],
+                'password' => bcrypt($input['password']),
                 'jurusan' => (isset($input['jurusan'])) ? $input['jurusan'] : '',
                 'instansi' => (isset($input['instansi'])) ? $input['instansi'] : '',
                 'alamat' => (isset($input['alamat'])) ? $input['alamat'] : '',

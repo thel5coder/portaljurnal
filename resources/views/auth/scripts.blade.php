@@ -15,10 +15,12 @@
 <script type="text/javascript">
     var baseUrl = "{{url('/')}}";
 </script>
-
 <script src="{{ asset('public/js/base.js') }}" type="text/javascript"></script>
+
 <script src="{{ asset('public/js/Services/loginServices.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/js/Services/SessionService.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/js/Controllers/loginController.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/js/Controllers/dashboardController.js') }}" type="text/javascript"></script>
 <script>
     $(function () {
         $('input').iCheck({

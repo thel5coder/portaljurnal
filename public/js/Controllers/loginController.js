@@ -1,6 +1,6 @@
 angular.module('loginController', [])
-    .controller('authController', function ($scope, $http, $window, $location, authFactory) {
-        $scope.validationOptions ={
+    .controller('authController', function ($scope, $http, $window, $location,$cookies, authFactory,sessionFactory) {
+        $scope.validationOptionsRegister ={
             errorElement: 'span', //default input error message container
             errorClass: 'help-block', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
@@ -18,7 +18,7 @@ angular.module('loginController', [])
                     email: true
                 },
                 alamat: {
-                    required: true,
+                    required: true
                 },
                 password: {
                     required: true,
@@ -104,4 +104,91 @@ angular.module('loginController', [])
                 notificationMessage('Centang setuju dahulu sebagai bentuk persetujuan user','info');
             }
         };
+
+        $scope.validationOptionLogin = {
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "",
+            rules:{
+                email:{
+                    required:true,
+                    email:true
+                },
+                password:{
+                    required:true
+                }
+            },
+            messages:{
+                email:{
+                    required:"Email harus di isi",
+                    email: "Email tidak valid"
+                },
+                password:{
+                    required:"Password tidak boleh kosong"
+                }
+            },
+            invalidHandler: function(event, validator) { //display error alert on form submit
+
+            },
+
+            highlight: function(element) { // hightlight error inputs
+                $(element)
+                    .closest('.form-group').addClass('has-error'); // set error class to the control group
+            },
+
+            success: function(label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            errorPlacement: function(error, element) {
+                if (element.attr("name") == "tnc") { // insert checkbox errors after the container
+                    error.insertAfter($('#register_tnc_error'));
+                } else if (element.closest('.input-icon').size() === 1) {
+                    error.insertAfter(element.closest('.input-icon'));
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        };
+
+        $scope.loginUser = function (form) {
+            if(form.validate){
+                runWaitMe('body','roundBounce','Mengauthentikasi tunggu...');
+                authFactory.login($scope.loginData)
+                    .success(function (s) {
+                        if(s.isSuccess){
+                            sessionFactory.set('auth',true);
+                            console.log(baseUrl);
+                            $window.location.href = 'http://localhost/portaljurnal/';
+                        }else{
+                            $('body').waitMe('hide');
+                            var errorMessagesCount = s.message.length;
+                            for (var i = 0; i < errorMessagesCount; i++) {
+                                notificationMessage(s.message[i], 'error');
+                            }
+                        }
+                    })
+                    .error(function (XMLHttpRequest, textStatus, errorThrow) {
+                        $('body').waitMe('hide');
+                        notificationMessage(errorThrow, 'error');
+                    });
+            }
+
+        };
+
+        $scope.logOutUser = function () {
+            runWaitMe('body','roundBounce','Logout...');
+            authFactory.logout()
+                .success(function () {
+                    $('body').waitMe('hide');
+                    $cookies.remove('auth');
+                    $window.location.href = 'http://localhost/portaljurnal/';
+                })
+                .error(function (XMLHttpRequest, textStatus, errorThrow) {
+                    $('body').waitMe('hide');
+                    notificationMessage(errorThrow, 'error');
+                })
+        }
     });

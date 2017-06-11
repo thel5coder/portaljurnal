@@ -1,23 +1,64 @@
-var app = angular.module("jurnalApp", ["ngRoute","ngCookies","ngValidate", "loginController", "loginServices"], function ($interpolateProvider, $locationProvider) {
+var app = angular.module("jurnalApp", [
+    "ngRoute",
+    "ngCookies",
+    "ngValidate",
+    "loginController",
+    "loginServices",
+    "dashboardController",
+    "SessionService",
+    "OpenJurnalController",
+    "OpenJurnalService"], function ($interpolateProvider, $locationProvider) {
     $interpolateProvider.startSymbol('<%');
     $interpolateProvider.endSymbol('%>');
+
 });
 
-app.config(function ($routeProvider,$locationProvider) {
+app.config(function ($routeProvider, $locationProvider) {
+
     $routeProvider
         .when('/', {
             templateUrl: 'resources/views/auth/login.html',
-            controller: 'authController'
+            controller: 'authController',
         });
 
     $routeProvider.when('/auth/register', {
         templateUrl: 'resources/views/auth/register.html',
-        controller: 'authController'
+        controller: 'authController',
+    });
+
+    $routeProvider.when('/dashboard', {
+        templateUrl: 'resources/views/dashboard/index.html',
+        controller: 'dashController',
+        authenticated: true
+    });
+
+    $routeProvider.when('/pendaftaran', {
+        templateUrl: 'resources/views/openjurnal/index.html',
+        controller: 'openJurnalController',
+        authenticated: true
     });
 
     $routeProvider.otherwise('/');
-
 });
+
+app.run(["$rootScope", "$location", 'sessionFactory',
+    function ($rootScope, $location, sessionFactory) {
+        $rootScope.$on("$routeChangeSuccess",
+            function (event, next, current) {
+                if (next.$$route.authenticated) {
+                    if (!sessionFactory.get('auth')) {
+                        $location.path('/');
+                    }
+                }
+
+                if (next.$$route.originalPath == '/') {
+                    if (sessionFactory.get('auth')) {
+                        $location.path('/dashboard');
+                    }
+                }
+            });
+    }
+]);
 
 function notificationMessage(message, type) {
     toastr.options.positionClass = "toast-top-full-width";
