@@ -160,8 +160,7 @@ angular.module('loginController', [])
                     .success(function (s) {
                         if(s.isSuccess){
                             sessionFactory.set('auth',true);
-                            console.log(baseUrl);
-                            $window.location.href = 'http://localhost/portaljurnal/';
+                            $window.location.href = baseUrl;
                         }else{
                             $('body').waitMe('hide');
                             var errorMessagesCount = s.message.length;
@@ -184,7 +183,7 @@ angular.module('loginController', [])
                 .success(function () {
                     $('body').waitMe('hide');
                     $cookies.remove('auth');
-                    $window.location.href = 'http://localhost/portaljurnal/';
+                    $window.location.href = baseUrl;
                 })
                 .error(function (XMLHttpRequest, textStatus, errorThrow) {
                     $('body').waitMe('hide');

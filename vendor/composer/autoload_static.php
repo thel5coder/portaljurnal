@@ -283,6 +283,7 @@ class ComposerStaticInit55914c70f2523728c176a9ff8368bfae
     public static $classMap = array (
         'AlterTableUser' => __DIR__ . '/../..' . '/database/migrations/2017_05_31_080308_alter_table_user.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+        'CreateTableNotification' => __DIR__ . '/../..' . '/database/migrations/2017_06_11_143530_create_table_notification.php',
         'CreateTablePjJurnal' => __DIR__ . '/../..' . '/database/migrations/2017_05_30_075232_create_table_pj_jurnal.php',
         'CreateTablePjJurnalDetailPenulis' => __DIR__ . '/../..' . '/database/migrations/2017_05_30_075950_create_table_pj_jurnal_detail_penulis.php',
         'CreateTablePjOpenJurnal' => __DIR__ . '/../..' . '/database/migrations/2017_05_30_074833_create_table_pj_open_jurnal.php',

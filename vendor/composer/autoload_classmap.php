@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'AlterTableUser' => $baseDir . '/database/migrations/2017_05_31_080308_alter_table_user.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+    'CreateTableNotification' => $baseDir . '/database/migrations/2017_06_11_143530_create_table_notification.php',
     'CreateTablePjJurnal' => $baseDir . '/database/migrations/2017_05_30_075232_create_table_pj_jurnal.php',
     'CreateTablePjJurnalDetailPenulis' => $baseDir . '/database/migrations/2017_05_30_075950_create_table_pj_jurnal_detail_penulis.php',
     'CreateTablePjOpenJurnal' => $baseDir . '/database/migrations/2017_05_30_074833_create_table_pj_open_jurnal.php',
