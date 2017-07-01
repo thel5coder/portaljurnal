@@ -7,7 +7,11 @@ var app = angular.module("jurnalApp", [
     "dashboardController",
     "SessionService",
     "OpenJurnalController",
-    "OpenJurnalService"], function ($interpolateProvider, $locationProvider) {
+    "OpenJurnalService",
+    "KategoriController",
+    "KategoriService","PendaftaranJurnalController","JurnalService",
+    "MyJurnalPenulisController","ActionTimRedaksiController","BlindReviewService",
+    "BlindReviewController","ui.bootstrap"], function ($interpolateProvider, $locationProvider) {
     $interpolateProvider.startSymbol('<%');
     $interpolateProvider.endSymbol('%>');
 
@@ -35,6 +39,36 @@ app.config(function ($routeProvider, $locationProvider) {
     $routeProvider.when('/pendaftaran', {
         templateUrl: 'resources/views/openjurnal/index.html',
         controller: 'openJurnalController',
+        authenticated: true
+    });
+
+    $routeProvider.when('/kategori',{
+        templateUrl: 'resources/views/kategori/index.html',
+        controller: 'kategoriController',
+        authenticated: true
+    });
+
+    $routeProvider.when('/pendaftaran-jurnal',{
+        templateUrl: 'resources/views/pendaftaranjurnal/create.html',
+        controller: 'pendaftaranJurnalController',
+        authenticated: true
+    });
+
+    $routeProvider.when('/my-jurnal',{
+        templateUrl: 'resources/views/pendaftaranjurnal/index.html',
+        controller: 'myJurnalPenulisController',
+        authenticated: true
+    });
+
+    $routeProvider.when('/jurnal-usulan',{
+        templateUrl: 'resources/views/jurnalusulan/index.html',
+        controller:'actionTimRedaksiController',
+        authenticated: true
+    });
+
+    $routeProvider.when('/revisi-tr',{
+        templateUrl: 'resources/views/blindreview/index.html',
+        controller: 'blindReviewController',
         authenticated: true
     });
 

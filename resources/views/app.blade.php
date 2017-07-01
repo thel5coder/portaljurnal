@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     @include('partials.htmlheader')
 
 
-    <body class="skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-collapse sidebar-mini">
 
     <div class="wrapper">
     @include('partials.mainheader')

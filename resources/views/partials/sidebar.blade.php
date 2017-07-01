@@ -34,22 +34,22 @@
             <!-- Optionally, you can add icons to the links -->
             @if(auth()->user()->user_level == 'penulis')
                 <li><a href="#/dashboard"><i class='glyphicon glyphicon-home'></i> <span>Home</span></a></li>
-                <li><a href="#/pendaftaran"><i class='fa fa-folder'></i> <span>Pendaftaran</span></a></li>
-                <li><a href="#"><i class='fa fa-folder'></i> <span>My Jurnal</span></a></li>
+                <li><a href="#/pendaftaran-jurnal"><i class='fa fa-folder'></i> <span>Pendaftaran</span></a></li>
+                <li><a href="#/my-jurnal"><i class='fa fa-folder'></i> <span>My Jurnal</span></a></li>
                 <li class="treeview">
                     <a href="#"><i class='fa fa-folder'></i> <span>Jurnal Revisi</span> <i
                                 class="fa fa-angle-left pull-right"></i></a>
                     <ul class="treeview-menu">
-                        <li><a href="#">Revisi TR</a></li>
-                        <li><a href="#">Revisi MB</a></li>
+                        <li><a href="#/revisi-tr">Revisi TR</a></li>
+                        <li><a href="#/revisi-mitra-bestari">Revisi MB</a></li>
                     </ul>
                 </li>
                 <li><a href="#profile"><i class='fa fa-folder'></i> <span>Profile</span></a></li>
             @elseif(auth()->user()->user_level == 'tim redaksi')
                 <li><a href="#/dashboard"><i class='glyphicon glyphicon-home'></i> <span>Home</span></a></li>
                 <li><a href="#/pendaftaran"><i class='fa fa-folder'></i> <span>Pendaftaran</span></a></li>
-                <li><a href="#/jurnalusulan"><i class='fa fa-folder'></i> <span>Jurnal Usulan</span></a></li>
-                <li><a href="#/blindreview"><i class='fa fa-folder'></i> <span>Blind Review</span></a></li>
+                <li><a href="#/jurnal-usulan"><i class='fa fa-folder'></i> <span>Jurnal Usulan</span></a></li>
+                <li><a href="#/blind-review"><i class='fa fa-folder'></i> <span>Blind Review</span></a></li>
                 <li><a href="#/rekapitulasi"><i class='fa fa-folder'></i> <span>Rekapitulasi</span></a></li>
                 <li><a href="#/profile"><i class='fa fa-folder'></i> <span>Profile</span></a></li>
             @elseif(auth()->user()->user_level == 'mitra bestari')
@@ -62,6 +62,7 @@
                 <li><a href="#/dashboard"><i class='glyphicon glyphicon-home'></i> <span>Home</span></a></li>
                 <li><a href="#/jurnal"><i class='fa fa-folder'></i> <span>Jurnal</span></a></li>
                 <li><a href="#/rekapitulasi"><i class='fa fa-folder'></i> <span>Rekapitulasi</span></a></li>
+                <li><a href="#/kategori"><i class='fa fa-folder'></i> <span>Master Kategori</span></a></li>
                 <li class="treeview">
                     <a href="#"><i class='fa fa-folder'></i> <span>User Management</span> <i
                                 class="fa fa-angle-left pull-right"></i></a>

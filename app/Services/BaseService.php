@@ -6,6 +6,7 @@ use App\Repositories\Contracts\IBaseRepository;
 use App\Services\Response\ServiceResponseDto as ResponseDto;
 use App\Services\Response\ServicePaginationResponseDto as PaginationDto;
 use App\Repositories\Contracts\Pagination\PaginationParam;
+use Illuminate\Support\Facades\Input;
 
 abstract class BaseService {
 
@@ -57,6 +58,20 @@ abstract class BaseService {
         }
         
         return $paginationParam;
+    }
+
+    public function uploadingFile($input){
+        $response = new ResponseDto();
+        if(Input::hasFile($input)){
+            $fileName = auth()->user()->id.'-'.Input::file($input)->getClientOriginalName().'-'.date('YmdHis');
+            if (Input::file($input)->move(base_path() . '/public/upload/', $fileName)) {
+                $response->setResult($fileName);
+            } else {
+                $fileName='';
+                $response->setResult($fileName);
+            }
+        }
+        return $response;
     }
 
 }

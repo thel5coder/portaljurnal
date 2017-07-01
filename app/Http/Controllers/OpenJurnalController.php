@@ -55,4 +55,21 @@ class OpenJurnalController extends Controller
 
         return $this->getJsonResponse($result);
     }
+
+    public function showAll(){
+        $result = $this->openJurnalService->all();
+
+        return response()->json($result->getResult());
+    }
+
+    public function getDefault(){
+        $result = $this->openJurnalService->getDefaultOpenJurnal()->getResult();
+        $data = [
+            'openJurnalId'=>$result->id,
+            'volume'=>$result->volume,
+            'nomor'=>$result->nomor
+        ];
+
+        return response()->json($data);
+    }
 }

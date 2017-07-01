@@ -12,9 +12,11 @@
 <script src="{{ asset('public/js/waitMe.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/js/toastr.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/js/jquery.bootgrid.js') }}" type="text/javascript"></script>
-<script src="{{ asset('public/js/jquery.bootgrid.fa.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/js/sweetalert2.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/plugins/datepicker/bootstrap-datepicker.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/plugins/jquery-validation/js/jquery.validate.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/plugins/jquery-validation/js/additional-methods.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/vendor/laravel-filemanager/js/lfm.js') }}" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.5/sweetalert2.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
 
@@ -24,6 +26,7 @@
 <script src="{{ asset('public/js/angular-cookies.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/js/angular-route.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/js/angular-sanitize.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/js/ui-bootstrap-tpls-2.5.0.js') }}" type="text/javascript"></script>
 
 <script type="text/javascript">
     var baseUrl = "{{url('/')}}";
@@ -36,3 +39,12 @@
 <script src="{{ asset('public/js/Controllers/dashboardController.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/js/Services/OpenJurnalService.js') }}" type="text/javascript"></script>
 <script src="{{ asset('public/js/Controllers/OpenJurnalController.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/js/Services/KategoriService.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/js/Controllers/KategoriController.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/js/Services/JurnalService.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/js/Controllers/PendaftaranJurnalController.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/js/Controllers/MyJurnalPenulisController.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/js/Controllers/ActionTimRedaksiController.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/js/Controllers/BlindReviewController.js') }}" type="text/javascript"></script>
+<script src="{{ asset('public/js/Services/BlindReviewService.js') }}" type="text/javascript"></script>
+@yield('customscripts')

@@ -3,7 +3,7 @@ angular.module('OpenJurnalService',[])
         return {
             readOpenJurnal:function (id) {
                 return $http({
-                    url: baseUrl + "/api/open-jurnal/"+id,
+                    url: baseUrl + "/api/open-jurnal/read/"+id,
                     method: "GET",
                     async: false,
                     contentType: false,
@@ -34,6 +34,24 @@ angular.module('OpenJurnalService',[])
                     async: false,
                     contentType: false,
                     processData: false,
+                });
+            },
+            getAllOpenJurnal:function () {
+                return $http({
+                    url: baseUrl + "/api/open-jurnal/all",
+                    method: "GET",
+                    async: false,
+                    contentType: false,
+                    processData: false
+                });
+            },
+            getDefaultOpenJurnal:function () {
+                return $http({
+                    url: baseUrl + "/api/open-jurnal/get-default",
+                    method: "GET",
+                    async: false,
+                    contentType: false,
+                    processData: false
                 });
             }
         }

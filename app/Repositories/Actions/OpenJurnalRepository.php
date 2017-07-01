@@ -48,11 +48,8 @@ class OpenJurnalRepository implements IOpenJurnalRepository
     {
         $result = new PaginationResult();
 
-        $order = $param->getSortOrder();
-        $orderBy = $param->getSortBy();
-
-        $sortBy = (isset($orderBy) ? 'id' : $orderBy);
-        $sortOrder = ($order == 'asc' ? 'desc' : $order);
+        $sortBy = ($param->getSortBy() == '' ? 'id' : $param->getSortBy());
+        $sortOrder = ($param->getSortOrder() == '' ? 'asc' : $param->getSortOrder());
 
         //setup skip data for paging
         if ($param->getPageSize() == -1) {
@@ -99,4 +96,18 @@ class OpenJurnalRepository implements IOpenJurnalRepository
 
         return $result;
     }
+
+    public function getDefaultOpenJurnal()
+    {
+        return PjOpenJurnalModel::where('is_open','=',1)
+            ->where('tgl_tutup','<>',date('Y-m-d'))
+            ->first();
+    }
+
+    public function changeStatusOpenJurnal()
+    {
+        // TODO: Implement changeStatusOpenJurnal() method.
+    }
+
+
 }

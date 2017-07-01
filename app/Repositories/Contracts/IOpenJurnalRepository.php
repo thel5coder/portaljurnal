@@ -9,5 +9,8 @@
 namespace App\Repositories\Contracts;
 interface IOpenJurnalRepository extends IBaseRepository
 {
+    public function getDefaultOpenJurnal();
+
+    public function changeStatusOpenJurnal();
 
 }

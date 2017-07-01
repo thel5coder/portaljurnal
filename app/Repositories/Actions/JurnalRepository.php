@@ -1,35 +1,47 @@
 <?php
+namespace App\Repositories\Actions;
 
 use App\Models\PjJurnal;
+use App\Models\PjPenulisJurnal;
+use App\Repositories\Contracts\Pagination\PaginationParam;
+use App\Repositories\Contracts\Pagination\PaginationResult;
+use App\Repositories\Contracts\IJurnalRepository;
 
-class JurnalRepository implements \App\Repository\Contract\IPjJurnalRepositroy
+class JurnalRepository implements IJurnalRepository
 {
 
     public function create($input)
     {
         $create = new PjJurnal();
         $create->open_jurnal_id = $input['openJurnalId'];
-        $create->jurnal = $input['judul'];
-        $create->abstrak = $input['absrak'];
+        $create->judul = $input['judul'];
+        $create->abstrak = $input['abstrak'];
         $create->jurusan = $input['jurusan'];
         $create->instansi = $input['instansi'];
         $create->kategori_id = $input['kategoriId'];
         $create->file_Jurnal = $input['fileJurnal'];
         $create->cover_jurnal = '';
-        $create->status = '';
-        return $create->save();
+        $create->status = 'Open';
+        $create->tahap = 'Received';
+        $create->created_by = auth()->user()->id;
+        $create->save();
+
+        return $create->id;
     }
 
     public function update($input)
     {
         $update = PjJurnal::find($input['id']);
-        $update->open_jurnla_id = $input['openJurnalId'];
-        $update->jurnal = $input['jurnal'];
-        $update->abstrak = $input['abstrak'];
-        $update->jurusan = $input['jurusan'];
-        $update->instansi = $input['instansi'];
-        $update->kategori_id = $input['kategoriId'];
-        $update->file_jurnal = $input['fileJurnal'];
+        $create->judul = $input['judul'];
+        $create->abstrak = $input['abstrak'];
+        $create->jurusan = $input['jurusan'];
+        $create->instansi = $input['instansi'];
+        $create->kategori_id = $input['kategoriId'];
+        $create->file_Jurnal = $input['fileJurnal'];
+        $create->status = 'Open';
+        $create->tahap = 'Received';
+        $create->created_by = auth()->user()->id;
+
         return $update->save();
     }
 
@@ -40,7 +52,11 @@ class JurnalRepository implements \App\Repository\Contract\IPjJurnalRepositroy
 
     public function read($id)
     {
-        return PjJurnal::find($id);
+        return PjJurnal::join('pj_kategori','pj_kategori.id','=','pj_jurnal.kategori_id')
+            ->join('pj_open_jurnal','pj_open_jurnal.id','=','pj_jurnal.open_jurnal_id')
+            ->select('pj_jurnal.*','pj_kategori.nama_kategori','pj_open_jurnal.volume','pj_open_jurnal.nomor')
+            ->where('pj_jurnal.id','=',$id)
+            ->first();
     }
 
     public function showAll()
@@ -48,9 +64,93 @@ class JurnalRepository implements \App\Repository\Contract\IPjJurnalRepositroy
         return PjJurnal::all();
     }
 
-    public function paginationData(\App\Repository\Contract\Pagination\PaginationParam $param)
+    public function paginationData(PaginationParam $param)
     {
-        // TODO: Implement paginationData() method.
+        $result = new PaginationResult();
+
+        $sortBy = ($param->getSortBy() == '' ? 'id' : $param->getSortBy());
+        $sortOrder = ($param->getSortOrder() == '' ? 'asc' : $param->getSortOrder());
+
+        //setup skip data for paging
+        if ($param->getPageSize() == -1) {
+            $skipCount = 0;
+        } else {
+            $skipCount = ($param->getPageIndex() * $param->getPageSize());
+        }
+        //get total count data
+        $result->setTotalCount(PjJurnal::join('pj_kategori','pj_kategori.id','=','pj_jurnal.kategori_id')
+            ->join('pj_open_jurnal','pj_open_jurnal.id','=','pj_jurnal.open_jurnal_id')
+            ->where('pj_jurnal.created_by','=',auth()->user()->id)->count());
+
+        //get data
+        if ($param->getKeyword() == '') {
+
+            if ($skipCount == 0) {
+                $data = PjJurnal::join('pj_kategori','pj_kategori.id','=','pj_jurnal.kategori_id')
+                    ->join('pj_open_jurnal','pj_open_jurnal.id','=','pj_jurnal.open_jurnal_id')
+                    ->select('pj_jurnal.*','pj_kategori.nama_kategori','pj_open_jurnal.volume','pj_open_jurnal.nomor')
+                    ->where('pj_jurnal.created_by','=',auth()->user()->id)
+                    ->take($param->getPageSize())
+                    ->orderBy($sortBy, $sortOrder)
+                    ->get();
+            } else {
+                $data = PjJurnal::join('pj_kategori','pj_kategori.id','=','pj_jurnal.kategori_id')
+                    ->join('pj_open_jurnal','pj_open_jurnal.id','=','pj_jurnal.open_jurnal_id')
+                    ->select('pj_jurnal.*','pj_kategori.nama_kategori','pj_open_jurnal.volume','pj_open_jurnal.nomor')
+                    ->where('pj_jurnal.created_by','=',auth()->user()->id)
+                    ->skip($skipCount)->take($param->getPageSize())
+                    ->orderBy($sortBy, $sortOrder)
+                    ->get();
+            }
+        } else {
+            if ($skipCount == 0) {
+                $data = PjJurnal::join('pj_kategori','pj_kategori.id','=','pj_jurnal.kategori_id')
+                    ->join('pj_open_jurnal','pj_open_jurnal.id','=','pj_jurnal.open_jurnal_id')
+                    ->select('pj_jurnal.*','pj_kategori.nama_kategori','pj_open_jurnal.volume','pj_open_jurnal.nomor')
+                    ->where('pj_jurnal.created_by','=',auth()->user()->id)
+                    ->where(function ($q)use($param){
+                        $q->where('pj_jurnal.udul', 'like', '%' . $param->getKeyword() . '%')
+                            ->where('pj_kategori.nama_kategori', 'like', '%' . $param->getKeyword() . '%')
+                            ->where('pj_open_jurnal.volume', 'like', '%' . $param->getKeyword() . '%');
+                    })
+                    ->take($param->getPageSize())
+                    ->orderBy($sortBy, $sortOrder)
+                    ->get();
+            } else {
+                $data =  PjJurnal::join('pj_kategori','pj_kategori.id','=','pj_jurnal.kategori_id')
+                    ->join('pj_open_jurnal','pj_open_jurnal.id','=','pj_jurnal.open_jurnal_id')
+                    ->select('pj_jurnal.*','pj_kategori.nama_kategori','pj_open_jurnal.volume','pj_open_jurnal.nomor')
+                    ->where('pj_jurnal.created_by','=',auth()->user()->id)
+                    ->where(function ($q)use($param){
+                        $q->where('pj_jurnal.udul', 'like', '%' . $param->getKeyword() . '%')
+                            ->where('pj_kategori.nama_kategori', 'like', '%' . $param->getKeyword() . '%')
+                            ->where('pj_open_jurnal.volume', 'like', '%' . $param->getKeyword() . '%');
+                    })
+                    ->orderBy($sortBy, $sortOrder)
+                    ->skip($skipCount)->take($param->getPageSize())
+                    ->get();
+            }
+        }
+
+        for($i=0;$i<count($data);$i++){
+            $daftarPenulis='';
+            $idJurnal = $data[$i]['id'];
+            $penulis = PjPenulisJurnal::where('jurnal_id','=',$idJurnal)->get();
+            for($j=0;$j<count($penulis);$j++){
+                if(($j++)!=count($penulis)){
+                    $daftarPenulis .= $penulis[$j]['nama_penulis'].",";
+                }
+                $daftarPenulis .= $penulis[$j]['nama_penulis'];
+            }
+            $data[$i]['penulis']=$daftarPenulis;
+        }
+
+
+        $result->setCurrentPageIndex($param->getPageIndex());
+        $result->setCurrentPageSize($param->getPageSize());
+        $result->setResult($data);
+
+        return $result;
     }
 
     public function UpdateTahap($tahap, $id)
@@ -67,13 +167,100 @@ class JurnalRepository implements \App\Repository\Contract\IPjJurnalRepositroy
         return $updateStatusJurnal->save();
     }
 
-    public function Download($pdf, $id)
+    public function UploadCover($id,$cover)
     {
-        // TODO: Implement Download() method.
+        $cover = PjJurnal::find($id);
+        $cover->cover_jurnal = $cover;
+
+        return $cover->save();
     }
 
-    public function UploadCover($id)
+    public function paginationByTahap(PaginationParam $param, $tahap)
     {
-        // TODO: Implement UploadCover() method.
+        $result = new PaginationResult();
+
+        $sortBy = ($param->getSortBy() == '' ? 'id' : $param->getSortBy());
+        $sortOrder = ($param->getSortOrder() == '' ? 'asc' : $param->getSortOrder());
+
+        //setup skip data for paging
+        if ($param->getPageSize() == -1) {
+            $skipCount = 0;
+        } else {
+            $skipCount = ($param->getPageIndex() * $param->getPageSize());
+        }
+        //get total count data
+        $result->setTotalCount(PjJurnal::join('pj_kategori','pj_kategori.id','=','pj_jurnal.kategori_id')
+            ->join('pj_open_jurnal','pj_open_jurnal.id','=','pj_jurnal.open_jurnal_id')
+            ->where('pj_jurnal.tahap','=',$tahap)->count());
+
+        //get data
+        if ($param->getKeyword() == '') {
+
+            if ($skipCount == 0) {
+                $data = PjJurnal::join('pj_kategori','pj_kategori.id','=','pj_jurnal.kategori_id')
+                    ->join('pj_open_jurnal','pj_open_jurnal.id','=','pj_jurnal.open_jurnal_id')
+                    ->select('pj_jurnal.*','pj_kategori.nama_kategori','pj_open_jurnal.volume','pj_open_jurnal.nomor')
+                    ->where('pj_jurnal.tahap','=',$tahap)
+                    ->take($param->getPageSize())
+                    ->orderBy($sortBy, $sortOrder)
+                    ->get();
+            } else {
+                $data = PjJurnal::join('pj_kategori','pj_kategori.id','=','pj_jurnal.kategori_id')
+                    ->join('pj_open_jurnal','pj_open_jurnal.id','=','pj_jurnal.open_jurnal_id')
+                    ->select('pj_jurnal.*','pj_kategori.nama_kategori','pj_open_jurnal.volume','pj_open_jurnal.nomor')
+                    ->where('pj_jurnal.tahap','=',$tahap)
+                    ->skip($skipCount)->take($param->getPageSize())
+                    ->orderBy($sortBy, $sortOrder)
+                    ->get();
+            }
+        } else {
+            if ($skipCount == 0) {
+                $data = PjJurnal::join('pj_kategori','pj_kategori.id','=','pj_jurnal.kategori_id')
+                    ->join('pj_open_jurnal','pj_open_jurnal.id','=','pj_jurnal.open_jurnal_id')
+                    ->select('pj_jurnal.*','pj_kategori.nama_kategori','pj_open_jurnal.volume','pj_open_jurnal.nomor')
+                    ->where('pj_jurnal.tahap','=',$tahap)
+                    ->where(function ($q)use($param){
+                        $q->where('pj_jurnal.udul', 'like', '%' . $param->getKeyword() . '%')
+                            ->where('pj_kategori.nama_kategori', 'like', '%' . $param->getKeyword() . '%')
+                            ->where('pj_open_jurnal.volume', 'like', '%' . $param->getKeyword() . '%');
+                    })
+                    ->take($param->getPageSize())
+                    ->orderBy($sortBy, $sortOrder)
+                    ->get();
+            } else {
+                $data =  PjJurnal::join('pj_kategori','pj_kategori.id','=','pj_jurnal.kategori_id')
+                    ->join('pj_open_jurnal','pj_open_jurnal.id','=','pj_jurnal.open_jurnal_id')
+                    ->select('pj_jurnal.*','pj_kategori.nama_kategori','pj_open_jurnal.volume','pj_open_jurnal.nomor')
+                    ->where('pj_jurnal.tahap','=',$tahap)
+                    ->where(function ($q)use($param){
+                        $q->where('pj_jurnal.udul', 'like', '%' . $param->getKeyword() . '%')
+                            ->where('pj_kategori.nama_kategori', 'like', '%' . $param->getKeyword() . '%')
+                            ->where('pj_open_jurnal.volume', 'like', '%' . $param->getKeyword() . '%');
+                    })
+                    ->orderBy($sortBy, $sortOrder)
+                    ->skip($skipCount)->take($param->getPageSize())
+                    ->get();
+            }
+        }
+
+        for($i=0;$i<count($data);$i++){
+            $daftarPenulis='';
+            $idJurnal = $data[$i]['id'];
+            $penulis = PjPenulisJurnal::where('jurnal_id','=',$idJurnal)->get();
+            for($j=0;$j<count($penulis);$j++){
+                if(($j++)!=count($penulis)){
+                    $daftarPenulis .= $penulis[$j]['nama_penulis'].",";
+                }
+                $daftarPenulis .= $penulis[$j]['nama_penulis'];
+            }
+            $data[$i]['penulis']=$daftarPenulis;
+        }
+
+
+        $result->setCurrentPageIndex($param->getPageIndex());
+        $result->setCurrentPageSize($param->getPageSize());
+        $result->setResult($data);
+
+        return $result;
     }
 }

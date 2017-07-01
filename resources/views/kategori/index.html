@@ -1,0 +1,88 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-11">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Kategori Jurnal</h4>
+                </div>
+
+                <div class="panel-body">
+                    <button type="button" class="btn btn-app" ng-click="kategoriToggleModal('new','')">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        Tambah
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped" id="tblKategori">
+                        <thead>
+                        <tr>
+                            <th data-column-id="nama_kategori">Nama Kategori</th>
+                            <th data-column-id="commands" data-formatter="aksi"
+                                data-sortable="false"> Aksi
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="kategoriModal" tabindex="-1" role="dialog" >
+    <form class="form-horizontal" name="frmKategori" id="frmKategori" ng-submit="saveKategori(frmKategori)" ng-validate="kategoriValidationOption">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" ng-bind="kategoriModalTitle"></h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" ng-model="kategoriData.id" />
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="namaKategori" class="col-md-3 control-label">Nama Kategori</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="namaKategori" name="namaKategori" ng-model="kategoriData.namaKategori">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </form>
+</div><!-- /.example-modal -->
+
+<script>
+    $(function () {
+        paginationTable();
+    });
+
+    function paginationTable() {
+        var grid = $('#tblKategori').bootgrid({
+            ajax: true,
+            url: baseUrl+"/api/kategori",
+            formatters: {
+                "aksi": function (column, row) {
+                    return "<div class=\"mt-action-buttons \">" +
+                            "<button type=\"button\"  name=\"btnEdit\" ng-controller=\"kategoriController\" class=\"btn btn-success btn-app command-edit\" data-row-id=\"" + row.id + "\"><i class=\"glyphicon glyphicon-edit\"></i>Edit</button>" +
+                            "<button class=\"btn btn-app btn-danger command-delete\" ng-controller=\"kategoriController\" data-row-id=\"" + row.id + "\"><i class=\"glyphicon glyphicon-remove\"></i>Hapus</button>" +
+                            "</div>";
+                }
+            }
+        }).on("loaded.rs.jquery.bootgrid", function () {
+            grid.find('.command-delete').click(function () {
+                angular.element('.command-delete').scope().kategoriDelete($(this).data('row-id'));
+            }).end().find('.command-edit').click(function () {
+                angular.element('.command-edit').scope().kategoriToggleModal('edit',$(this).data('row-id'));
+            });
+        });
+
+    }
+
+</script>

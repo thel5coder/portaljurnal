@@ -1,0 +1,90 @@
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Pendaftaran</h3>
+    </div><!-- /.box-header -->
+    <!-- form start -->
+    <form class="form-horizontal" id="frmPendaftaranJurnal" name="frmPendaftaranJurnal" ng-validate="pendaftaranJurnalValidate" ng-submit="pendaftarnJurnalSave(frmPendaftaranJurnal)">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="hidden" ng-model="pendaftaranJurnalData.openJurnalId" >
+                        <label for="volume" class="col-md-3 control-label">Volume</label>
+                        <div class="col-md-9">
+                            <input type="text" id="volume" name="volume" ng-model="pendaftaranJurnalData.volume" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nomor" class="col-md-3 control-label">Nomor</label>
+                        <div class="col-md-9">
+                            <input type="text" name="nomor" class="form-control" id="nomor" ng-model="pendaftaranJurnalData.nomor" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="judul" class="control-label col-md-3">Judul</label>
+                        <div class="col-md-9">
+                            <input type="text" name="judul" class="form-control" id="judul" ng-model="pendaftaranJurnalData.judul" placeholder="Judul...">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="penulis1" class="control-label col-md-3">Penulis 1</label>
+                        <div class="col-md-9">
+                            <input type="text" name="penulis" class="form-control" id="penulis1" ng-model="pendaftaranJurnalData.penulis1" placeholder="Penulis...">
+                        </div>
+                        <label for="penulis2" class="control-label col-md-3">Penulis 2</label>
+                        <div class="col-md-9">
+                            <input type="text" name="penulis" class="form-control" id="penulis2" ng-model="pendaftaranJurnalData.penulis2" placeholder="Penulis...">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="unikId" class="col-md-3 control-label">NIM/NIDN</label>
+                        <div class="col-md-9">
+                            <input type="text" name="unikId" class="form-control" id="unikId" ng-model="pendaftaranJurnalData.unikId" placeholder="NIM/NIDN...">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="abstrak" class="col-md-3 control-label">Abstrak</label>
+                        <div class="col-md-9">
+                            <textarea name="absrak" id="abstrak" cols="30" rows="10" class="form-control" ng-model="pendaftaranJurnalData.abstrak" placeholder="Abstrak..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="jurusan" class="col-md-3 control-label">Jurusan</label>
+                        <div class="col-md-9">
+                            <input type="text" name="jurusan" id="jurusan" placeholder="Jurusan" ng-model="pendaftaranJurnalData.jurusan" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="instansi" class="col-md-3 control-label">Instansi</label>
+                        <div class="col-md-9">
+                            <input type="text" name="instansi" id="instansi" ng-model="pendaftaranJurnalData.instansi" placeholder="Instansi..." class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="kategori" class="col-md-3 control-label">Kategori</label>
+                        <div class="col-md-9">
+                            <select name="kategori" id="kategori" class="form-control" ng-model="pendaftaranJurnalData.kategori" ng-options="kategori.namaKategori for kategori in kategoriData track by kategori.kategoriId">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="jurnalFile" class="control-label col-md-3">File input</label>
+                        <div class="col-md-9">
+                            <input type="file" name="jurnalFile" id="jurnalFile" class="form-control" ng-model="pendaftaranJurnalData.fileJurnal">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.box-body -->
+
+        <div class="box-footer">
+            <button type="submit" id="btnSubmits" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div><!-- /.box -->

@@ -10,6 +10,7 @@
     <!--plugins-->
     <link href="{{ asset('public/css/waitMe.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/css/toastr.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('public/css/sweetalert2.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('public/plugins/datepicker/datepicker3.css') }}" rel="stylesheet" type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.5/sweetalert2.css" rel="stylesheet" type="text/css"/>
     <!-- Font Awesome Icons -->
@@ -25,6 +26,7 @@
     <link href="{{ asset('public/css/skins/skin-blue.css') }}" rel="stylesheet" type="text/css" />
     <!-- iCheck -->
     <link href="{{ asset('public/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('public/css/custom.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

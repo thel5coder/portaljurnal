@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">Jurnal Usulan</h4>
+            </div>
+
+            <div class="panel-body">
+
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped table-responsive" id="tblRevisiBlindReview">
+                    <thead>
+                    <tr>
+                        <th data-column-id="penulis" data-sortable="false">Penulis</th>
+                        <th data-column-id="judul">Judul</th>
+                        <th data-column-id="volume">Volume</th>
+                        <th data-column-id="nomor">Nomor</th>
+                        <th data-column-id="created_at">Tgl Upload</th>
+                        <th data-column-id="blindReview" data-formatter="blindReview" data-sortable="false">Blind Review
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var fileJurnal;
+
+    $(document).ready(function () {
+        paginationTable();
+
+    });
+
+
+    function paginationTable() {
+        var grid = $('#tblRevisiBlindReview').bootgrid({
+            ajax: true,
+            url: baseUrl + "/api/blind-review",
+            formatters: {
+                "blindReview": function (column, row) {
+                    return "<a target=\"_blank\" href=\""+baseUrl+"/api/blind-review/download/"+row.id+"\" class=\"btn btn-link\">Download BR</a>";
+                }
+            }
+        }).on("loaded.rs.jquery.bootgrid", function () {
+
+//            grid.find('.command-delete').click(function () {
+//                angular.element('.command-delete').scope().deleteMyJurnal($(this).data('row-id'));
+//            }).end().find('.command-edit').click(function () {
+//                angular.element('.command-edit').scope().editJurnal($(this).data('row-id'));
+//            });
+        });
+
+    }
+</script>
+
+

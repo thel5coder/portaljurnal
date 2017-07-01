@@ -1,0 +1,913 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">Jurnal Usulan</h4>
+            </div>
+
+            <div class="panel-body">
+
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped table-responsive" id="tblJurnalUsulan">
+                    <thead>
+                    <tr>
+                        <th data-column-id="penulis" data-sortable="false">Penulis</th>
+                        <th data-column-id="jurusan">Jurusan</th>
+                        <th data-column-id="instansi">Instansi</th>
+                        <th data-column-id="nama_kategori">Kategori</th>
+                        <th data-column-id="judul">Judul</th>
+                        <th data-column-id="volume">Volume</th>
+                        <th data-column-id="nomor">Nomor</th>
+                        <th data-column-id="created_at">Tgl Upload</th>
+                        <th data-column-id="filejurnal" data-formatter="fileJurnal" data-sortable="false">Jurnal
+                        </th>
+                        <th data-column-id="status">Status</th>
+                        <th data-column-id="tahap">Tahap</th>
+                        <th data-column-id="commands" data-formatter="aksi"
+                            data-sortable="false"> Aksi
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" id="modalFormBlindReview"
+     aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form name="frmBlindReview" id="frmBlindReview" ng-validate="validateBlindReview" ng-submit="saveBlindReview(frmBlindReview)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Blind Review</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="container-fluid">
+                            <uib-tabset active="active">
+                                <uib-tab index="0" heading="Download File Data Naskah Jurnal">
+                                    <table class="table table-bordered table-striped table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th colspan="2">Data Naskah Jurnal</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="nama in namaPenulis">
+                                            <td>Nama Penulis</td>
+                                            <td>
+                                                <% namaPenulis %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Jurusan</td>
+                                            <td><% dataJurnalUsulan.jurusan %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Instansi</td>
+                                            <td><% dataJurnalUsulan.instansi %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kategori</td>
+                                            <td><% dataJurnalUsulan.namaKategori %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Judul</td>
+                                            <td><% dataJurnalUsulan.judul %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Volume</td>
+                                            <td><% dataJurnalUsulan.volume %></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nomor</td>
+                                            <td><% dataJurnalUsulan.nomor %></td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th colspan="2">
+                                                <a href="<% baseUrl %>public/upload/<% dataJurnalUsulan.fileJurnal %>"
+                                                   class="btn btn-link"><i
+                                                        class="glyphicon glyphicon-download"></i> Download File Jurnal
+                                                </a>
+                                            </th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </uib-tab>
+                                <uib-tab index="1" heading="Blind Review">
+                                    <input type="hidden" ng-model="blindReview.jurnalId">
+                                    <table class="table table-bordered table-condensed table-striped table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Penilaian Format Penulisan</th>
+                                            <th>Sesuai</th>
+                                            <th>Perbaiki</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Jumlah Halaman (12-14)</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan1"
+                                                               ng-model="blindReview.formatPenulisan1"
+                                                               name="formatPenulisan1" ng-value="1">
+                                                    </label>
+                                                </div>
+
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan1"
+                                                               ng-model="blindReview.formatPenulisan1"
+                                                               name="formatPenulisan1" ng-value="0">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Penulisan Judul (Arial 12)</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan2"
+                                                               ng-model="blindReview.formatPenulisan2"
+                                                               name="formatPenulisan2" ng-value="1">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan2"
+                                                               ng-model="blindReview.formatPenulisan2"
+                                                               name="formatPenulisan2" ng-value="0">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Penulisan Sesuai EYD</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan3"
+                                                               ng-model="blindReview.formatPenulisan3"
+                                                               name="formatPenulisan3" ng-value="1">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan3"
+                                                               ng-model="blindReview.formatPenulisan3"
+                                                               name="formatPenulisan3" ng-value="0">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Penulisan Abstrak (1 Alenia B. Inggris, Maks 200 Kata, Arial 9)</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan4"
+                                                               ng-model="blindReview.formatPenulisan4"
+                                                               name="formatPenulisan4" ng-value="1">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan4"
+                                                               ng-model="blindReview.formatPenulisan4"
+                                                               name="formatPenulisan4" ng-value="0">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kata Kunci( 5 Kata, Arial 9, Huruf Miring)</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan5"
+                                                               ng-model="blindReview.formatPenulisan5"
+                                                               name="formatPenulisan5" ng-value="1">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan5"
+                                                               ng-model="blindReview.formatPenulisan5"
+                                                               name="formatPenulisan5" ng-value="0">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pengutipan Referensi (Nama Belakang, Tahun)</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan6"
+                                                               ng-model="blindReview.formatPenulisan6"
+                                                               name="formatPenulisan6" ng-value="1">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan6"
+                                                               ng-model="blindReview.formatPenulisan6"
+                                                               name="formatPenulisan6" ng-value="0">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Isi Naskah (Spasi 1, Arial 9, Kertas A4)</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan7"
+                                                               ng-model="blindReview.formatPenulisan7"
+                                                               name="formatPenulisan7" ng-value="1">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan7"
+                                                               ng-model="blindReview.formatPenulisan7"
+                                                               name="formatPenulisan7" ng-value="0">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Penomoran BAB(1.Pendahuluan, Dst.)</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan8"
+                                                               ng-model="blindReview.formatPenulisan8"
+                                                               name="formatPenulisan8" ng-value="1">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan8"
+                                                               ng-model="blindReview.formatPenulisan8"
+                                                               name="formatPenulisan8" ng-value="0">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Penomoran Sub Bab(1.1 Latar Bekalang, Dst.)</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan9"
+                                                               ng-model="blindReview.formatPenulisan9"
+                                                               name="formatPenulisan9" ng-value="1">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan9"
+                                                               ng-model="blindReview.formatPenulisan9"
+                                                               name="formatPenulisan9" ng-value="0">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Penomoran Rumus(Kanan, Angka Arab, Ket. Rumus)</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan10"
+                                                               ng-model="blindReview.formatPenulisan10"
+                                                               name="formatPenulisan10" ng-value="1">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan10"
+                                                               ng-model="blindReview.formatPenulisan10"
+                                                               name="formatPenulisan10" ng-value="0">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Penomoran Table(Atas-Tengah, Angka Arab, Ket. Tabel)</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan11"
+                                                               ng-model="blindReview.formatPenulisan11"
+                                                               name="formatPenulisan11" ng-value="1">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan11"
+                                                               ng-model="blindReview.formatPenulisan11"
+                                                               name="formatPenulisan11" ng-value="0">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Penomoran Gambar(Bawah - Tengah, Angka Arab, Ket. Tabel)</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan12"
+                                                               ng-model="blindReview.formatPenulisan12"
+                                                               name="formatPenulisan12" ng-value="1">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan12"
+                                                               ng-model="blindReview.formatPenulisan12"
+                                                               name="formatPenulisan12" ng-value="0">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Penulisan Daftar Pustaka(jumlah Buku 3-8)</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan13"
+                                                               ng-model="blindReview.formatPenulisan13"
+                                                               name="formatPenulisan13" ng-value="1">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="formatPenulisan13"
+                                                               ng-model="blindReview.formatPenulisan13"
+                                                               name="formatPenulisan13" ng-value="0">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered table-condensed table-striped table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th rowspan="2">PENILAIAN ISI TULISAN</th>
+                                            <th colspan="4">NILAI</th>
+                                        </tr>
+                                        <tr>
+                                            <th>1=KURANG</th>
+                                            <th>2=CUKUP</th>
+                                            <th>3=BAIK</th>
+                                            <th>4=BAIK SEKALI</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Apakah Isi Naskah Original?</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan1"
+                                                               ng-model="blindReview.isiTulisan1"
+                                                               name="isiTulisan1" ng-value="1" checked>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan1"
+                                                               ng-model="blindReview.isiTulisan1"
+                                                               name="isiTulisan1" ng-value="2">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan1"
+                                                               ng-model="blindReview.isiTulisan1"
+                                                               name="isiTulisan1" ng-value="3">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan1"
+                                                               ng-model="blindReview.isiTulisan1"
+                                                               name="isiTulisan1" ng-value="4">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Apakah Judul Mempresentasikan Isi?</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan2"
+                                                               ng-model="blindReview.isiTulisan2" name="isiTulisan2"
+                                                               ng-value="1" checked>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan2"
+                                                               ng-model="blindReview.isiTulisan2"
+                                                               name="isiTulisan2" ng-value="2">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan2"
+                                                               ng-model="blindReview.isiTulisan2"
+                                                               name="isiTulisan2" ng-value="3">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan2"
+                                                               ng-model="blindReview.isiTulisan2"
+                                                               name="isiTulisan2" ng-value="4">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Apakah Abstrak Merefleksikan Isi?</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan3"
+                                                               ng-model="blindReview.isiTulisan3"
+                                                               name="isiTulisan3" ng-value="1" checked>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan3"
+                                                               ng-model="blindReview.isiTulisan3"
+                                                               name="isiTulisan3" ng-value="2">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan3"
+                                                               ng-model="blindReview.isiTulisan3"
+                                                               name="isiTulisan3" ng-value="3">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan3"
+                                                               ng-model="blindReview.isiTulisan3"
+                                                               name="isiTulisan3" ng-value="4">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Apakah Kata Kunci Mengidentifikasikan Lingkup Penelitian?</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan4"
+                                                               ng-model="blindReview.isiTulisan4"
+                                                               name="isiTulisan4" ng-value="1" checked>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan4"
+                                                               ng-model="blindReview.isiTulisan4"
+                                                               name="isiTulisan4" ng-value="2">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan4"
+                                                               ng-model="blindReview.isiTulisan4"
+                                                               name="isiTulisan4" ng-value="3">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan4"
+                                                               ng-model="blindReview.isiTulisan4"
+                                                               name="isiTulisan4" ng-value="4">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Apakah Metodelogi Yang Digunakan Tepat?</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan5"
+                                                               ng-model="blindReview.isiTulisan5"
+                                                               name="isiTulisan5" ng-value="1" checked>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan5"
+                                                               ng-model="blindReview.isiTulisan5"
+                                                               name="isiTulisan5" ng-value="2">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan5"
+                                                               ng-model="blindReview.isiTulisan5"
+                                                               name="isiTulisan5" ng-value="3">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan5"
+                                                               ng-model="blindReview.isiTulisan5"
+                                                               name="isiTulisan5" ng-value="4">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Apakah Penggunaan Tabel dan Gambar Mendukung Penjelasan?</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan6"
+                                                               ng-model="blindReview.isiTulisan6"
+                                                               name="isiTulisan6" ng-value="1" checked>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan6"
+                                                               ng-model="blindReview.isiTulisan6"
+                                                               name="isiTulisan6" ng-value="2">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan6"
+                                                               ng-model="blindReview.isiTulisan6"
+                                                               name="isiTulisan6" ng-value="3">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan6"
+                                                               ng-model="blindReview.isiTulisan6"
+                                                               name="isiTulisan6" ng-value="4">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Apakah Analisa Pada Paper Relevan Dengan Hasil Penelitian?</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan7"
+                                                               ng-model="blindReview.isiTulisan7"
+                                                               name="isiTulisan7" ng-value="1" checked>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan7"
+                                                               ng-model="blindReview.isiTulisan7"
+                                                               name="isiTulisan7" ng-value="2">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan7"
+                                                               ng-model="blindReview.isiTulisan7"
+                                                               name="isiTulisan7" ng-value="3">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan7"
+                                                               ng-model="blindReview.isiTulisan7"
+                                                               name="isiTulisan7" ng-value="4">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Apakah Referensi Yang Digunakan Relevan?</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan8"
+                                                               ng-model="blindReview.isiTulisan8"
+                                                               name="isiTulisan8" ng-value="1" checked>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan8"
+                                                               ng-model="blindReview.isiTulisan8"
+                                                               name="isiTulisan8" ng-value="2">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan8"
+                                                               ng-model="blindReview.isiTulisan8"
+                                                               name="isiTulisan8" ng-value="3">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan8"
+                                                               ng-model="blindReview.isiTulisan8"
+                                                               name="isiTulisan8" ng-value="4">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pendapat Anda Tentang Kesimpulan Dan Saran Pada Naskah?</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan9"
+                                                               ng-model="blindReview.isiTulisan9"
+                                                               name="isiTulisan9" ng-value="1" checked>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan9"
+                                                               ng-model="blindReview.isiTulisan9"
+                                                               name="isiTulisan9" ng-value="2">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan9"
+                                                               ng-model="blindReview.isiTulisan9"
+                                                               name="isiTulisan9" ng-value="3">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan9"
+                                                               ng-model="blindReview.isiTulisan9"
+                                                               name="isiTulisan9" ng-value="4">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pendapat Anda Tentang Ketajaman Bahasan Penulisan Naskah?</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan10"
+                                                               ng-model="blindReview.isiTulisan10"
+                                                               name="isiTulisan10" ng-value="1" checked>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan10"
+                                                               ng-model="blindReview.isiTulisan10"
+                                                               name="isiTulisan10" ng-value="2">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan10"
+                                                               ng-model="blindReview.isiTulisan10"
+                                                               name="isiTulisan10" ng-value="3">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="isiTulisan10"
+                                                               ng-model="blindReview.isiTulisan10"
+                                                               name="isiTulisan10" ng-value="4">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered table-condensed table-striped table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>REKOMENDASI HASIL PENILAIAN</th>
+                                            <th>HASIL</th>
+                                            <th>PARAF REVIEWER</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Diterima Tanpa Perbaikan</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="hasil" ng-checked="checked"
+                                                               ng-model="blindReview.hasil"
+                                                               name="hasil" ng-value="1">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td rowspan="3">
+                                            <textarea class="form-control" name="parafReviewer" id="parafReviewer"
+                                                      rows="5" ng-model="blindReview.parafReviewer"></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Diterima Dengan Perbaikan</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="hasil" ng-model="blindReview.hasil"
+                                                               name="hasil" ng-value="2">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ditolak</td>
+                                            <td>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="radio" class="hasil" ng-model="blindReview.hasil"
+                                                               name="hasil" ng-value="0">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" align="center">
+                                                <button type="submit" class="btn btn-primary btn-flat"><i class="glyphicon glyphicon-save"></i> Simpan</button>
+                                                <button type="reset" class="btn btn-flat btn-default" data-dismiss="modal">Batal</button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </uib-tab>
+                            </uib-tabset>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var fileJurnal;
+
+    $(document).ready(function () {
+        paginationTable();
+
+    });
+
+
+    function paginationTable() {
+        var grid = $('#tblJurnalUsulan').bootgrid({
+            ajax: true,
+            url: baseUrl + "/api/jurnal-usulan",
+            formatters: {
+                "aksi": function (column, row) {
+                    return "<div class=\"btn-group\">" +
+                            "<button type=\"button\" ng-controller=\"actionTimRedaksiController\" data-row-id=\"" + row.id + "\" class=\"btn btn-flat btn-primary cmdBlindReview\"><i class=\"glyphicon glyphicon-eye-close\"></i> Blind Review</button>" +
+                            "<button type=\"button\" ng-controller=\"actionTimRedaksiController\" data-row-id=\"" + row.id + "\" class=\"btn btn-flat btn-info cmdKirimKeMB\"><i class=\"glyphicon glyphicon-send\"></i> Kirim Ke MB</button>" +
+                            "<button type=\"button\" ng-controller=\"actionTimRedaksiController\" data-row-id=\"" + row.id + "\" class=\"btn btn-flat btn-success cmdAcc\"><i class=\"glyphicon glyphicon-check\"></i>Acc</button>" +
+                            "<button type=\"button\" ng-controller=\"actionTimRedaksiController\" data-row-id=\"" + row.id + "\" class=\"btn btn-flat btn-info cmdKirimKeAdmin\"><i class=\"glyphicon glyphicon-send\"></i>Kirim Ke Admin</button>" +
+                            "</div>";
+                },
+                "fileJurnal": function (column, row) {
+                    return "<a target=\"_blank\" href=\"" + baseUrl + "/public/upload/" + row.file_jurnal + "\" class=\"btn btn-link\">Download</a>";
+                }
+            }
+        }).on("loaded.rs.jquery.bootgrid", function () {
+            $('.dropdown-toggle').dropdown();
+
+            $('.table-responsive').on('show.bs.dropdown', function () {
+                $('.table-responsive').css("overflow-y", "visible");
+                $('.table-responsive').css("overflow-x", "scroll");
+            });
+
+            $('.table-responsive').on('hide.bs.dropdown', function () {
+                $('.table-responsive').css("overflow", "auto");
+            });
+
+            grid.find('.cmdBlindReview').click(function () {
+                angular.element('.cmdBlindReview').scope().toggleFormBlindReview($(this).data('row-id'));
+            });
+//            grid.find('.command-delete').click(function () {
+//                angular.element('.command-delete').scope().deleteMyJurnal($(this).data('row-id'));
+//            }).end().find('.command-edit').click(function () {
+//                angular.element('.command-edit').scope().editJurnal($(this).data('row-id'));
+//            });
+        });
+
+    }
+</script>
+
+

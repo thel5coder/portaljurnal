@@ -82,4 +82,12 @@ class OpenJurnalService extends BaseService
         return $this->getPaginationObject($this->openJurnalRepository,$param);
     }
 
+    public function getDefaultOpenJurnal(){
+        $response = new ServiceResponseDto();
+
+        $response->setResult($this->openJurnalRepository->getDefaultOpenJurnal());
+
+        return $response;
+    }
+
 }

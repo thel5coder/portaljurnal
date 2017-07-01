@@ -1,0 +1,190 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">My Jurnal</h4>
+            </div>
+
+            <div class="panel-body">
+                <a href="#/pendaftaran-jurnal" class="btn btn-app">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    Pendaftaran Jurnal
+                </a>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped" id="tblMyJurnal">
+                        <thead>
+                        <tr>
+                            <th data-column-id="penulis" data-sortable="false">Penulis</th>
+                            <th data-column-id="jurusan">Jurusan</th>
+                            <th data-column-id="instansi">Instansi</th>
+                            <th data-column-id="nama_kategori">Kategori</th>
+                            <th data-column-id="judul">Judul</th>
+                            <th data-column-id="volume">Volume</th>
+                            <th data-column-id="nomor">Nomor</th>
+                            <th data-column-id="created_at">Tgl Upload</th>
+                            <th data-column-id="filejurnal" data-formatter="fileJurnal" data-sortable="false">Jurnal
+                            </th>
+                            <th data-column-id="status">Status</th>
+                            <th data-column-id="tahap">Tahap</th>
+                            <th data-column-id="commands" data-formatter="aksi"
+                                data-sortable="false"> Aksi
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" id="modalEditJurnal"
+     aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form name="frmUpdateJurnalUsulan" id="frmUpdateJurnalUsulan" ng-validate="updateJurnalValidationOptions" ng-submit="updateJurnalUsulan(frmUpdateJurnalUsulan)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Edit Jurnal</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="hidden" ng-model="jurnalData.id" />
+                            <div class="form-group">
+                                <input type="hidden" ng-model="jurnalData.openJurnalId">
+                                <label for="volume" class="col-md-3 control-label">Volume</label>
+                                <div class="col-md-9">
+                                    <input type="text" id="volume" name="volume" ng-model="jurnalData.volume"
+                                           class="form-control" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="nomor" class="col-md-3 control-label">Nomor</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="nomor" class="form-control" id="nomor"
+                                           ng-model="jurnalData.nomor" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="judul" class="control-label col-md-3">Judul</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="judul" class="form-control" id="judul"
+                                           ng-model="jurnalData.judul" placeholder="Judul...">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="penulis" class="control-label col-md-3">Penulis </label>
+                                <div class="col-md-9">
+                                    <input type="text" name="penulisJurnal" ng-repeat="penulis in namaPenulis"
+                                           class="form-control" id="penulis" value="<% penulis.namaPenulis%>" data-penulis-id="<% penulis.idPenulisJurnal %>" placeholder="<%penulis.namaPenulis%>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="unikId" class="col-md-3 control-label">NIM/NIDN</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="unikId" class="form-control" id="unikId"
+                                           ng-model="jurnalData.unikId" placeholder="NIM/NIDN...">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="abstrak" class="col-md-3 control-label">Abstrak</label>
+                                <div class="col-md-9">
+                                <textarea name="absrak" id="abstrak" class="form-control"
+                                          ng-model="jurnalData.abstrak" placeholder="Abstrak..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label for="jurusan" class="col-md-3 control-label">Jurusan</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="jurusan" id="jurusan" placeholder="Jurusan"
+                                           ng-model="jurnalData.jurusan" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="instansi" class="col-md-3 control-label">Instansi</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="instansi" id="instansi" ng-model="jurnalData.instansi"
+                                           placeholder="Instansi..." class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="kategori" class="col-md-3 control-label">Kategori</label>
+                                <div class="col-md-9">
+                                    <select name="kategori" id="kategori" class="form-control" ng-model="selectedKategoriId" ng-options="kategori.namaKategori for kategori in kategoriData track by kategori.kategoriId">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="jurnalFile" class="control-label col-md-3">File input</label>
+                                <div class="col-md-9">
+                                    <input type="file" name="jurnalFile" id="jurnalFile" class="form-control"
+                                           ng-model="jurnalData.fileJurnal">
+                                    <span>Existing file <strong><% jurnalData.fileJurnal %></strong>, jika tidak ingin mengubah file tinggalkan kosong</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" value="Simpan"/>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var fileJurnal ;
+
+    $(document).ready(function () {
+        paginationTable();
+
+//        $('#btnUbahFile').click(function () {
+//            if($(this).text() ===  'Ubah File'){
+//                fileJurnal = $('#jurnalFile').val();
+//                $('#jurnalFile').prop({'type':'file','disabled':false});
+//                $(this).text('Batal');
+//            }else{
+//                $('#jurnalFile').prop('type','text');
+//                $('#jurnalFile').prop('disabled','true');
+//                $('#jurnalFile').val(fileJurnal);
+//                $(this).text('Ubah File');
+//            }
+//        });
+    });
+
+    function paginationTable() {
+        var grid = $('#tblMyJurnal').bootgrid({
+            ajax: true,
+            url: baseUrl + "/api/jurnal",
+            formatters: {
+                "aksi": function (column, row) {
+                    return "<div class=\"btn-group\">" +
+                            "<button type=\"button\"  name=\"btnEdit\" ng-controller=\"myJurnalPenulisController\" class=\"btn btn-success btn-sm command-edit\" data-row-id=\"" + row.id + "\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\"><i class=\"glyphicon glyphicon-edit\"></i></button>" +
+                            "<button class=\"btn btn-sm btn-danger command-delete\" ng-controller=\"myJurnalPenulisController\" data-row-id=\"" + row.id + "\"><i class=\"glyphicon glyphicon-remove\"></i></button>" +
+                            "</div>";
+                },
+                "fileJurnal": function (column, row) {
+                    return "<a target=\"_blank\" href=\"" + baseUrl + "/public/upload/" + row.file_jurnal + "\" class=\"btn btn-link\">Download</a>";
+                }
+            }
+        }).on("loaded.rs.jquery.bootgrid", function () {
+            grid.find('.command-delete').click(function () {
+                angular.element('.command-delete').scope().deleteMyJurnal($(this).data('row-id'));
+            }).end().find('.command-edit').click(function () {
+                angular.element('.command-edit').scope().editJurnal($(this).data('row-id'));
+            });
+        });
+
+    }
+</script>
+
+
